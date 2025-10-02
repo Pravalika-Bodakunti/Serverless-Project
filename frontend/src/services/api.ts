@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// API Configuration
+// API Configuration - Update this URL after deployment
 const API_BASE_URL = 'https://zg6y5ynqd0.execute-api.us-east-2.amazonaws.com/dev';
 
 const api = axios.create({
