@@ -1,0 +1,78 @@
+service: crud-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-2  
+  environment:
+    TABLE_NAME: !Ref ItemsTable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - !GetAtt ItemsTable.Arn
+
+functions:
+  createItem:
+    handler: functions/create.handler
+    events:
+      - http:
+          path: items
+          method: post
+          cors: true
+
+  listItems:
+    handler: functions/list.handler
+    events:
+      - http:
+          path: items
+          method: get
+          cors: true
+
+  getItem:
+    handler: functions/get.handler
+    events:
+      - http:
+          path: items/{id}
+          method: get
+          cors: true
+
+  updateItem:
+    handler: functions/update.handler
+    events:
+      - http:
+          path: items/{id}
+          method: put
+          cors: true
+
+  deleteItem:
+    handler: functions/delete.handler
+    events:
+      - http:
+          path: items/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    ItemsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-items-${sls:stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+

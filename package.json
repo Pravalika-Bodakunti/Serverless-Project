@@ -1,0 +1,25 @@
+{
+  "name": "serverless-backend",
+  "version": "1.0.0",
+  "description": "Serverless CRUD API with AWS Lambda and DynamoDB",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "cd crud-api && serverless deploy",
+    "deploy:dev": "cd crud-api && serverless deploy --stage dev",
+    "deploy:prod": "cd crud-api && serverless deploy --stage prod",
+    "remove": "cd crud-api && serverless remove",
+    "logs": "cd crud-api && serverless logs -f",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:serverless": "npm install -g serverless"
+  },
+  "keywords": ["serverless", "aws", "lambda", "dynamodb", "crud", "api"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0"
+  }
+}
