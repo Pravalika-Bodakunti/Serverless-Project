@@ -1,5 +1,8 @@
-const AWS = require("aws-sdk");
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, DeleteCommand } = require("@aws-sdk/lib-dynamodb");
+
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 
 const headers = {
   "Content-Type": "application/json",
@@ -30,7 +33,7 @@ module.exports.handler = async (event) => {
       ReturnValues: "ALL_OLD"
     };
 
-    const result = await dynamo.delete(params).promise();
+    const result = await dynamo.send(new DeleteCommand(params));
 
     return {
       statusCode: 200,

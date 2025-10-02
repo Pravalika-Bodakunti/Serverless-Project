@@ -1,6 +1,9 @@
-const AWS = require("aws-sdk");
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, PutCommand } = require("@aws-sdk/lib-dynamodb");
 const { v4: uuidv4 } = require("uuid");
-const dynamo = new AWS.DynamoDB.DocumentClient();
+
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 
 const headers = {
   "Content-Type": "application/json",
@@ -51,7 +54,7 @@ module.exports.handler = async (event) => {
       ConditionExpression: "attribute_not_exists(id)" // Prevent overwriting existing items
     };
 
-    await dynamo.put(params).promise();
+    await dynamo.send(new PutCommand(params));
 
     return {
       statusCode: 201,

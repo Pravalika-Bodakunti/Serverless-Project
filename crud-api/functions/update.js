@@ -1,5 +1,8 @@
-const AWS = require("aws-sdk");
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 
 const headers = {
   "Content-Type": "application/json",
@@ -62,7 +65,7 @@ module.exports.handler = async (event) => {
       ReturnValues: "ALL_NEW"
     };
 
-    const result = await dynamo.update(params).promise();
+    const result = await dynamo.send(new UpdateCommand(params));
 
     return {
       statusCode: 200,

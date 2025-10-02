@@ -1,5 +1,8 @@
-const AWS = require("aws-sdk");
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, ScanCommand } = require("@aws-sdk/lib-dynamodb");
+
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 
 const headers = {
   "Content-Type": "application/json",
@@ -14,7 +17,7 @@ module.exports.handler = async (event) => {
       TableName: process.env.TABLE_NAME
     };
 
-    const result = await dynamo.scan(params).promise();
+    const result = await dynamo.send(new ScanCommand(params));
 
     return {
       statusCode: 200,
