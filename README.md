@@ -148,6 +148,19 @@ The project includes automated deployment through GitHub Actions:
 - **Pull request** → Deploys to development for testing
 - **Automatic testing** → Runs tests before deployment
 
+### GitHub Actions Workflow
+![GitHub Actions Success](screenshots/github-actions-success.png)
+
+### Build Logs
+![GitHub Actions Build Logs](screenshots/github-actions-build-logs.png)
+
+### AWS Resources Deployed
+![AWS Lambda Functions](screenshots/aws-lambda-functions.png)
+![AWS API Gateway](screenshots/aws-api-gateway.png)
+![AWS DynamoDB](screenshots/aws-dynamodb.png)
+
+### GitHub Secrets Configuration
+![GitHub Secrets](screenshots/github-secrets.png)
 ##  Testing
 
 ### Running Tests
