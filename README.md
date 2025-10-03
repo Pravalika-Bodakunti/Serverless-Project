@@ -1,406 +1,267 @@
-# Full-Stack Serverless CRUD Application
+# Digital Library Management System
 
-A production-ready full-stack REST API application built with AWS serverless architecture and React frontend.
+A modern, full-stack application for managing your digital book collection. Built with React frontend and AWS serverless backend, this system lets you easily organize, track, and manage your books with a clean, responsive interface.
 
-## 🏗️ Architecture Overview
+## What This Project Does
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React App     │    │   API Gateway    │    │  Lambda Funcs   │    │   DynamoDB      │
-│   (Frontend)    │───▶│   (REST API)     │───▶│   (Business)    │───▶│   (Database)    │
-│   Material-UI   │    │   CORS Enabled   │    │   Node.js       │    │   NoSQL         │
-└─────────────────┘    └──────────────────┘    └─────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌──────────────────┐
-                       │  GitHub Actions  │
-                       │    CI/CD         │
-                       │  Dev/Prod Deploy │
-                       └──────────────────┘
-```
+This is a complete library management system that allows you to:
+- **Add new books** to your digital collection
+- **View all your books** in an organized table
+- **Edit book details** when you need to update information
+- **Remove books** from your collection
 
-## ✅ Requirements Compliance
 
-### **Core Requirements - 100% Complete**
+The system is built to be fast, reliable, and easy to use on any device - from your phone to your desktop computer.
 
-| Requirement | Status | Implementation |
-|------------|--------|----------------|
-| **JavaScript/Node.js Backend** | ✅ Complete | 5 Lambda functions in Node.js |
-| **React Frontend** | ✅ Complete | React with TypeScript & Material-UI |
-| **Serverless Framework IAC** | ✅ Complete | Complete infrastructure as code |
-| **API Gateway + DynamoDB** | ✅ Complete | REST API with DynamoDB storage |
-| **5 Lambda CRUD Functions** | ✅ Complete | Create, List, Get, Update, Delete |
-| **No Direct Service Proxy** | ✅ Complete | All requests go through Lambda |
-| **Multi-stage CI/CD Pipeline** | ✅ Complete | GitHub Actions with dev/prod |
-| **Fully Working Template** | ✅ Complete | Tested and functional |
-| **Public GitHub Repository** | ✅ Complete | Public repo with frequent commits |
-| **Complete Documentation** | ✅ Complete | This comprehensive README |
+##  How It's Built
 
-## 🚀 Quick Start
+### Frontend (What You See)
+- **React** - Modern web framework for the user interface
+- **Material-UI** - Beautiful, responsive design components
+- **TypeScript** - Clean, type-safe code
+- **Axios** - Handles communication with the backend
+
+### Backend (The Engine)
+- **AWS Lambda** - Serverless functions that handle your requests
+- **DynamoDB** - Fast, reliable database for storing book information
+- **API Gateway** - Secure endpoints for your frontend to connect to
+- **Serverless Framework** - Manages all the AWS infrastructure automatically
+
+## Getting Started
 
 ### Prerequisites
-
-- Node.js 18.x or later
-- AWS CLI configured
-- Serverless Framework CLI
+Before you start, make sure you have:
+- Node.js (version 18 or higher)
+- npm (comes with Node.js)
+- AWS account with appropriate permissions
 - Git
 
-### 1. Clone Repository
+### Installation
 
-```bash
-git clone https://github.com/Pravalika-Bodakunti/Serverless-Project.git
-cd Serverless-Project
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Pravalika-Bodakunti/Serverless-Project.git
+   cd Serverless-Project
+   ```
+
+2. **Install backend dependencies**
+   ```bash
+   cd crud-api
+   npm install
+   ```
+
+3. **Install frontend dependencies**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+### Running the Application
+
+1. **Start the frontend development server**
+   ```bash
+   cd frontend
+   npm start
+   ```
+   This will open your browser to `http://localhost:3000`
+
+2. **Deploy the backend to AWS**
+   ```bash
+   cd crud-api
+   serverless deploy
+   ```
+
+##  Using the Application
+
+### Adding a New Book
+1. Click the "Add Book" button
+2. Enter the book title
+3. Click "Add Book" to save
+
+### Viewing Your Library
+- All your books are displayed in a clean table
+- You can see when each book was added
+- The table is responsive and works on mobile devices
+
+### Editing a Book
+1. Click the edit icon next to any book
+2. Change the title
+3. Click "Update Book" to save changes
+
+### Removing a Book
+1. Click the delete icon next to any book
+2. Confirm the deletion
+
+##  Configuration
+
+### Backend Configuration
+The backend is configured in `crud-api/serverless.yml`. Key settings:
+- **Region**: us-east-2 (Ohio)
+- **Runtime**: Node.js 18.x
+- **Database**: DynamoDB with pay-per-request billing
+
+### Frontend Configuration
+Update the API URL in `frontend/src/services/api.ts`:
+```typescript
+const API_BASE_URL = 'https://your-api-gateway-url.amazonaws.com/prod';
 ```
 
-### 2. Install Dependencies
+##  Development
 
+### Project Structure
+```
+├── crud-api/                 # Backend serverless functions
+│   ├── functions/           # Lambda functions
+│   ├── serverless.yml       # Infrastructure configuration
+│   └── package.json         # Backend dependencies
+├── frontend/                # React frontend
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   └── services/         # API communication
+│   └── package.json         # Frontend dependencies
+├── scripts/                 # Deployment scripts
+└── .github/workflows/       # CI/CD pipeline
+```
+
+### Available Scripts
+
+**Backend:**
+- `npm run deploy` - Deploy to production
+- `npm run deploy:dev` - Deploy to development
+- `npm run remove` - Remove all AWS resources
+- `npm run logs` - View function logs
+
+**Frontend:**
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+
+**Deployment Scripts:**
+- `./scripts/deploy.sh [dev|prod]` - Deploy with custom script
+- `./scripts/test-api.sh [dev|prod]` - Test API endpoints
+- `./scripts/cleanup.sh [dev|prod]` - Clean up resources
+
+##  CI/CD Pipeline
+
+The project includes automated deployment through GitHub Actions:
+- **Push to main branch** → Deploys to production
+- **Pull request** → Deploys to development for testing
+- **Automatic testing** → Runs tests before deployment
+
+##  Testing
+
+### Running Tests
 ```bash
-# Install root dependencies
-npm install
-
-# Install backend dependencies
+# Backend tests
 cd crud-api
-npm install
-cd ..
+npm test
 
-# Install frontend dependencies
+# Frontend tests
 cd frontend
-npm install
-cd ..
+npm test
 ```
-
-### 3. Deploy Backend
-
-```bash
-# Deploy to development
-npm run deploy:dev
-
-# Deploy to production
-npm run deploy:prod
-```
-
-### 4. Run Frontend Locally
-
-```bash
-cd frontend
-npm start
-```
-
-Access the application at: `http://localhost:3000`
-
-## 📋 API Endpoints
-
-### Base URL
-- **Development**: `https://zg6y5ynqd0.execute-api.us-east-2.amazonaws.com/dev`
-- **Production**: `https://{api-id}.execute-api.us-east-2.amazonaws.com/prod`
-
-### Endpoints
-
-| Method | Endpoint | Description | Lambda Function |
-|--------|----------|-------------|-----------------|
-| `POST` | `/items` | Create new item | `createItem` |
-| `GET` | `/items` | List all items | `listItems` |
-| `GET` | `/items/{id}` | Get specific item | `getItem` |
-| `PUT` | `/items/{id}` | Update item | `updateItem` |
-| `DELETE` | `/items/{id}` | Delete item | `deleteItem` |
-
-### Example Requests
-
-**Create Item:**
-```bash
-curl -X POST https://api-url/dev/items \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Sample Item"}'
-```
-
-**Get All Items:**
-```bash
-curl https://api-url/dev/items
-```
-
-**Update Item:**
-```bash
-curl -X PUT https://api-url/dev/items/{id} \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Updated Item"}'
-```
-
-## 🏗️ Infrastructure as Code
-
-### Serverless Framework Configuration
-
-The `crud-api/serverless.yml` file defines:
-
-- **5 Lambda Functions** with individual handlers
-- **DynamoDB Table** with pay-per-request billing
-- **API Gateway** with CORS enabled
-- **IAM Permissions** with least privilege access
-- **Multi-stage Support** (dev/prod environments)
-
-### AWS Resources Created
-
-```yaml
-Resources:
-  - AWS Lambda Functions (5)
-  - API Gateway REST API (1)
-  - DynamoDB Table (1)
-  - IAM Role & Policies (1)
-  - CloudFormation Stack (1)
-```
-
-## 🔄 CI/CD Pipeline
-
-### GitHub Actions Workflow
-
-The `.github/workflows/deploy.yml` implements:
-
-**Triggers:**
-- **Pull Request** → Deploy to Development
-- **Push to main** → Deploy to Production
-
-**Pipeline Steps:**
-1. Checkout code
-2. Setup Node.js 18.x
-3. Install dependencies
-4. Configure AWS credentials
-5. Deploy to appropriate environment
-6. Run tests (configurable)
-7. Comment on PR with status
-
-### Setup Instructions
-
-1. **Add GitHub Secrets:**
-   - `AWS_ACCESS_KEY_ID`
-   - `AWS_SECRET_ACCESS_KEY`
-
-2. **Navigate to:** Repository → Settings → Secrets and variables → Actions
-
-3. **Add secrets** with your AWS credentials
-
-## 📱 Frontend Features
-
-### Technology Stack
-- **React 18** with TypeScript
-- **Material-UI v5** for components
-- **Axios** for API communication
-- **Responsive Design** for all device sizes
-
-### Device Support
-- **Mobile** (< 600px): Compact layout
-- **Tablet** (600-960px): Medium layout
-- **Desktop** (960-1280px): Full layout
-- **Large Screen** (> 1280px): Expanded layout
-
-### Features
-- ✅ Complete CRUD operations
-- ✅ Real-time data updates
-- ✅ Loading states & error handling
-- ✅ Form validation
-- ✅ Responsive data grid
-- ✅ Material Design components
-- ✅ Toast notifications
-
-## 🛡️ Backend Features
-
-### Lambda Functions
-
-Each Lambda function includes:
-- **Error Handling**: Comprehensive try-catch blocks
-- **Input Validation**: Required field validation
-- **CORS Headers**: Cross-origin support
-- **Logging**: CloudWatch integration
-- **Status Codes**: Proper HTTP responses
-
-### Security Features
-- **IAM Permissions**: Least privilege access
-- **Input Validation**: Prevent injection attacks
-- **Error Sanitization**: No sensitive data exposure
-- **CORS Configuration**: Controlled access
-
-## 📊 Database Schema
-
-### DynamoDB Table: `crud-api-items-{stage}`
-
-```json
-{
-  "id": "uuid",           // Primary Key
-  "name": "string",       // Item name
-  "createdAt": "ISO date", // Creation timestamp
-  "updatedAt": "ISO date"  // Last update timestamp
-}
-```
-
-**Configuration:**
-- **Billing Mode**: Pay per request
-- **Primary Key**: `id` (String)
-- **No GSI**: Simple single-table design
-
-## 🧪 Testing
-
-### Local Testing
-
-1. **Start Backend:**
-   ```bash
-   npm run deploy:dev
-   ```
-
-2. **Start Frontend:**
-   ```bash
-   cd frontend && npm start
-   ```
-
-3. **Test Operations:**
-   - Create items
-   - View items list
-   - Edit items
-   - Delete items
 
 ### API Testing
-
 ```bash
-# Test all endpoints
-curl -X POST {api-url}/items -d '{"name":"Test"}'
-curl {api-url}/items
-curl {api-url}/items/{id}
-curl -X PUT {api-url}/items/{id} -d '{"name":"Updated"}'
-curl -X DELETE {api-url}/items/{id}
+# Test production API
+./scripts/test-api.sh prod
+
+# Test development API
+./scripts/test-api.sh dev
 ```
 
-## 📁 Project Structure
+## Monitoring and Logs
 
-```
-serverless-backend/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # CI/CD pipeline
-├── crud-api/                   # Backend serverless application
-│   ├── functions/              # Lambda function handlers
-│   │   ├── create.js          # POST /items
-│   │   ├── list.js            # GET /items
-│   │   ├── get.js             # GET /items/{id}
-│   │   ├── update.js          # PUT /items/{id}
-│   │   └── delete.js          # DELETE /items/{id}
-│   ├── serverless.yml         # Infrastructure as Code
-│   └── package.json           # Backend dependencies
-├── frontend/                   # React frontend application
-│   ├── src/
-│   │   ├── components/
-│   │   │   └── ItemsManager.tsx # Main CRUD component
-│   │   ├── services/
-│   │   │   └── api.ts          # API service layer
-│   │   └── App.tsx             # Main app component
-│   └── package.json           # Frontend dependencies
-├── package.json               # Root package with scripts
-└── README.md                  # This documentation
+### Viewing Logs
+```bash
+cd crud-api
+serverless logs -f createItem
+serverless logs -f listItems
 ```
 
-## 🚀 Deployment
+### CloudWatch
+- Logs are automatically sent to AWS CloudWatch
+- Monitor function performance and errors
+- Set up alerts for production issues
 
-### Automated Deployment (Recommended)
+## Security Features
 
-1. **Push to GitHub:**
-   ```bash
-   git push origin main
-   ```
+- **CORS enabled** - Secure cross-origin requests
+- **Input validation** - All inputs are validated before processing
+- **Error handling** - Comprehensive error handling and logging
+- **IAM permissions** - Least privilege access to AWS resources
 
-2. **GitHub Actions automatically:**
-   - Deploys to production
-   - Updates all AWS resources
-   - Provides deployment status
+##  Cost Management
+
+This project is designed to be cost-effective:
+- **DynamoDB** - Pay only for what you use
+- **Lambda** - Pay per request, not per hour
+- **API Gateway** - Free tier includes 1 million requests/month
+- **No servers to maintain** - Serverless architecture
+
+##  Troubleshooting
+
+### Common Issues
+
+**Frontend not connecting to backend:**
+- Check the API URL in `frontend/src/services/api.ts`
+- Verify the backend is deployed
+- Check browser console for errors
+
+**Backend deployment fails:**
+- Ensure AWS credentials are configured
+- Check the `serverless.yml` configuration
+- Verify IAM permissions
+
+**Database errors:**
+- Check DynamoDB table exists
+- Verify IAM permissions for DynamoDB
+- Check function logs for specific errors
+
+### Getting Help
+
+1. Check the logs: `serverless logs -f functionName`
+2. Verify AWS resources in the AWS Console
+3. Test API endpoints manually
+4. Check GitHub Actions for deployment issues
+
+##  Deployment Options
 
 ### Manual Deployment
-
 ```bash
-# Development
-cd crud-api
-serverless deploy --stage dev
-
-# Production
 cd crud-api
 serverless deploy --stage prod
 ```
 
-## 📈 Monitoring & Logging
+### Automated Deployment
+- Push to main branch triggers production deployment
+- Pull requests trigger development deployment
+- All deployments are logged in GitHub Actions
 
-### CloudWatch Integration
-- **Lambda Logs**: Automatic logging to CloudWatch
-- **API Gateway Logs**: Request/response logging
-- **Error Tracking**: Detailed error information
-- **Performance Metrics**: Built-in AWS metrics
+##  Performance
 
-### Log Access
-```bash
-# View logs for specific function
-cd crud-api
-serverless logs -f createItem --stage dev
-```
+- **Fast response times** - Serverless functions start in milliseconds
+- **Scalable** - Automatically handles traffic spikes
+- **Efficient** - Only runs when needed, no idle costs
+- **Reliable** - Built on AWS's proven infrastructure
 
-## 🔧 Configuration
-
-### Environment Variables
-
-The application uses these environment variables:
-
-- `TABLE_NAME`: DynamoDB table name (auto-generated)
-- `AWS_REGION`: Deployment region (us-east-2)
-
-### Customization
-
-**Change AWS Region:**
-```yaml
-# crud-api/serverless.yml
-provider:
-  region: your-preferred-region
-```
-
-**Modify Table Name:**
-```yaml
-# crud-api/serverless.yml
-resources:
-  Resources:
-    ItemsTable:
-      Properties:
-        TableName: your-custom-table-name
-```
-
-## 💰 Cost Optimization
-
-### AWS Free Tier Usage
-- **Lambda**: 1M requests/month free
-- **API Gateway**: 1M requests/month free
-- **DynamoDB**: 25GB storage + 25 RCU/WCU free
-- **CloudWatch**: 5GB logs free
-
-### Estimated Costs
-- **Development Usage**: $0/month (within free tier)
-- **Production (1K requests/day)**: ~$1-2/month
-
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Make changes with tests
-4. Submit a pull request
-5. CI/CD will automatically test and deploy
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 📄 License
+##  License
 
-This project is licensed under the ISC License.
+This project is open source and available under the MIT License.
 
-## 🔗 Links
+##  Acknowledgments
 
-- **Live Application**: [Coming Soon - Frontend Deployment]
-- **GitHub Repository**: https://github.com/Pravalika-Bodakunti/Serverless-Project
-- **API Documentation**: See API Endpoints section above
-
-## 📞 Support
-
-For questions or issues:
-1. Check this README
-2. Review GitHub Issues
-3. Check CloudWatch logs
-4. Contact repository owner
+- Built with AWS Serverless technologies
+- Frontend powered by React and Material-UI
+- Infrastructure managed by Serverless Framework
+- CI/CD powered by GitHub Actions
 
 ---
-
-**Built with ❤️ using AWS Serverless Architecture and React**

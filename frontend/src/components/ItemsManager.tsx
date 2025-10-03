@@ -189,26 +189,30 @@ const ItemsManager: React.FC<ItemsManagerProps> = () => {
   const columns: GridColDef[] = [
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: 'Book Title',
       flex: 1,
       minWidth: 150,
     },
+  {
+  field: 'createdAt',
+  headerName: 'Created',
+  width: isMobile ? 120 : 180,
+  valueFormatter: (params: any) => {
+   
+    if (!params) return 'N/A';
+    // Debug log
+    return formatDate(params, isMobile); // ✅ pass string
+  },
+},
     {
-      field: 'createdAt',
-      headerName: 'Created',
-      width: isMobile ? 120 : 180,
-      valueFormatter: (params: any) => {
-        return formatDate(params.value, isMobile);
-      },
-    },
-    {
-      field: 'updatedAt',
-      headerName: 'Updated',
-      width: isMobile ? 120 : 180,
-      valueFormatter: (params: any) => {
-        return formatDate(params.value, isMobile);
-      },
-    },
+  field: 'updatedAt',
+  headerName: 'Updated',
+  width: isMobile ? 120 : 180,
+  valueFormatter: (params: any) => {
+    if (!params) return 'N/A';
+    return formatDate(params, isMobile);
+  },
+},
     {
       field: 'actions',
       type: 'actions',
@@ -246,11 +250,11 @@ const ItemsManager: React.FC<ItemsManagerProps> = () => {
           >
             <Box>
               <Typography variant="h6" component="h2" gutterBottom>
-                Items Overview
+                Library Overview
               </Typography>
               <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                 <Chip
-                  label={`Total: ${items.length}`}
+                  label={`Books: ${items.length}`}
                   color="primary"
                   variant="outlined"
                 />
@@ -284,7 +288,7 @@ const ItemsManager: React.FC<ItemsManagerProps> = () => {
                 disabled={loading}
                 size={isMobile ? 'small' : 'medium'}
               >
-                Add Item
+                Add Book
               </Button>
             </Box>
           </Box>
@@ -330,13 +334,13 @@ const ItemsManager: React.FC<ItemsManagerProps> = () => {
         fullScreen={isMobile}
       >
         <DialogTitle>
-          {editingItem ? 'Edit Item' : 'Create New Item'}
+          {editingItem ? 'Edit Book' : 'Add New Book'}
         </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Item Name"
+            label="Book Title"
             fullWidth
             variant="outlined"
             value={itemName}
@@ -359,7 +363,7 @@ const ItemsManager: React.FC<ItemsManagerProps> = () => {
             disabled={loading || !itemName.trim()}
             startIcon={loading ? <CircularProgress size={16} /> : null}
           >
-            {editingItem ? 'Update' : 'Create'}
+            {editingItem ? 'Update Book' : 'Add Book'}
           </Button>
         </DialogActions>
       </Dialog>

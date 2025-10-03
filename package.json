@@ -9,7 +9,12 @@
     "deploy:prod": "cd crud-api && serverless deploy --stage prod",
     "remove": "cd crud-api && serverless remove",
     "logs": "cd crud-api && serverless logs -f",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cd crud-api && npm test",
+    "test:unit": "cd crud-api && npm run test:unit",
+    "test:integration": "cd crud-api && npm run test:integration",
+    "test:api": "./scripts/test-api.sh",
+    "deploy:script": "./scripts/deploy.sh",
+    "cleanup": "./scripts/cleanup.sh",
     "install:serverless": "npm install -g serverless"
   },
   "keywords": ["serverless", "aws", "lambda", "dynamodb", "crud", "api"],

@@ -41,17 +41,22 @@ module.exports.handler = async (event) => {
     // Generate ID if not provided
     const id = body.id || uuidv4();
     
-    const item = {
+    const task = {
       id,
-      name: body.name,
+      title: body.title || body.name, // Support both title and name for backward compatibility
+      description: body.description || '',
+      status: body.status || 'TODO',
+      priority: body.priority || 'MEDIUM',
+      category: body.category || 'WORK',
+      dueDate: body.dueDate || null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
     const params = {
-      TableName: process.env.TABLE_NAME,
-      Item: item,
-      ConditionExpression: "attribute_not_exists(id)" // Prevent overwriting existing items
+      TableName: process.env.TASKS_TABLE,
+      Item: task,
+      ConditionExpression: "attribute_not_exists(id)" // Prevent overwriting existing tasks
     };
 
     await dynamo.send(new PutCommand(params));
@@ -60,19 +65,19 @@ module.exports.handler = async (event) => {
       statusCode: 201,
       headers,
       body: JSON.stringify({
-        message: "Item created successfully",
-        item
+        message: "Task created successfully",
+        task
       })
     };
   } catch (error) {
-    console.error("Error creating item:", error);
+    console.error("Error creating task:", error);
     
     if (error.code === "ConditionalCheckFailedException") {
       return {
         statusCode: 409,
         headers,
         body: JSON.stringify({
-          error: "Item with this ID already exists"
+          error: "Task with this ID already exists"
         })
       };
     }
@@ -81,7 +86,7 @@ module.exports.handler = async (event) => {
       statusCode: 500,
       headers,
       body: JSON.stringify({
-        error: "Could not create item",
+        error: "Could not create task",
         message: error.message
       })
     };

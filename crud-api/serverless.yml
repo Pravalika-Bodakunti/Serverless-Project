@@ -1,4 +1,4 @@
-service: crud-api
+service: task-management-api
 frameworkVersion: '3'
 
 provider:
@@ -6,7 +6,7 @@ provider:
   runtime: nodejs18.x
   region: us-east-2  
   environment:
-    TABLE_NAME: !Ref ItemsTable
+    TASKS_TABLE: !Ref TasksTable
   iam:
     role:
       statements:
@@ -19,55 +19,55 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - !GetAtt ItemsTable.Arn
+            - !GetAtt TasksTable.Arn
 
 functions:
-  createItem:
+  createTask:
     handler: functions/create.handler
     events:
       - http:
-          path: items
+          path: tasks
           method: post
           cors: true
 
-  listItems:
+  listTasks:
     handler: functions/list.handler
     events:
       - http:
-          path: items
+          path: tasks
           method: get
           cors: true
 
-  getItem:
+  getTask:
     handler: functions/get.handler
     events:
       - http:
-          path: items/{id}
+          path: tasks/{id}
           method: get
           cors: true
 
-  updateItem:
+  updateTask:
     handler: functions/update.handler
     events:
       - http:
-          path: items/{id}
+          path: tasks/{id}
           method: put
           cors: true
 
-  deleteItem:
+  deleteTask:
     handler: functions/delete.handler
     events:
       - http:
-          path: items/{id}
+          path: tasks/{id}
           method: delete
           cors: true
 
 resources:
   Resources:
-    ItemsTable:
+    TasksTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-items-${sls:stage}
+        TableName: ${self:service}-tasks-${sls:stage}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

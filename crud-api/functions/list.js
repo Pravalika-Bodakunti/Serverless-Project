@@ -14,7 +14,7 @@ const headers = {
 module.exports.handler = async (event) => {
   try {
     const params = {
-      TableName: process.env.TABLE_NAME
+      TableName: process.env.TASKS_TABLE
     };
 
     const result = await dynamo.send(new ScanCommand(params));
@@ -23,17 +23,17 @@ module.exports.handler = async (event) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        items: result.Items,
+        tasks: result.Items,
         count: result.Count
       })
     };
   } catch (error) {
-    console.error("Error listing items:", error);
+    console.error("Error listing tasks:", error);
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
-        error: "Could not list items",
+        error: "Could not list tasks",
         message: error.message
       })
     };

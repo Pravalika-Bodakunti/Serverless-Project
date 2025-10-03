@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// API Configuration - Update this URL after deployment
-const API_BASE_URL = 'https://zg6y5ynqd0.execute-api.us-east-2.amazonaws.com/dev';
+// API Configuration - Production API URL (Task Management System)
+const API_BASE_URL = 'https://jf043lb8n8.execute-api.us-east-2.amazonaws.com/prod';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -37,16 +37,16 @@ export interface ApiResponse<T> {
 
 // API Functions
 export const itemsApi = {
-  // Create a new item
+  // Create a new book
   create: async (data: CreateItemRequest): Promise<Item> => {
-    const response = await api.post<ApiResponse<Item>>('/items', data);
+    const response = await api.post<ApiResponse<Item>>('/items', { name: data.name });
     if (response.data.item) {
       return response.data.item;
     }
-    throw new Error(response.data.error || 'Failed to create item');
+    throw new Error(response.data.error || 'Failed to create book');
   },
 
-  // Get all items
+  // Get all books
   getAll: async (): Promise<{ items: Item[]; count: number }> => {
     const response = await api.get<ApiResponse<Item>>('/items');
     return {
@@ -55,22 +55,22 @@ export const itemsApi = {
     };
   },
 
-  // Get a specific item by ID
+  // Get a specific book by ID
   getById: async (id: string): Promise<Item> => {
     const response = await api.get<Item>(`/items/${id}`);
     return response.data;
   },
 
-  // Update an item
+  // Update a book
   update: async (id: string, data: UpdateItemRequest): Promise<Item> => {
-    const response = await api.put<ApiResponse<Item>>(`/items/${id}`, data);
+    const response = await api.put<ApiResponse<Item>>(`/items/${id}`, { name: data.name });
     if (response.data.item) {
       return response.data.item;
     }
-    throw new Error(response.data.error || 'Failed to update item');
+    throw new Error(response.data.error || 'Failed to update book');
   },
 
-  // Delete an item
+  // Delete a book
   delete: async (id: string): Promise<void> => {
     await api.delete(`/items/${id}`);
   },

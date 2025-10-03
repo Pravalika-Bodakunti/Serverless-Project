@@ -87,7 +87,7 @@ function App() {
                 fontSize: { xs: '1.1rem', sm: '1.25rem' }
               }}
             >
-              Serverless CRUD Manager
+              Digital Library Manager
             </Typography>
           </Toolbar>
         </AppBar>
@@ -112,7 +112,7 @@ function App() {
                 mb: 1,
               }}
             >
-              Items Management
+              Book Library Management
             </Typography>
             <Typography
               variant="body1"
@@ -124,7 +124,7 @@ function App() {
                 mx: 'auto',
               }}
             >
-              Manage your items with full CRUD operations powered by AWS Lambda and DynamoDB
+              Organize your digital book collection with easy-to-use library management system
             </Typography>
           </Box>
 
